@@ -1,17 +1,16 @@
+import LoginPage from '../pages/login.page';
+import ProfilePage from '../pages/profile.page';
+
 describe('Auth', function () {
+    beforeEach(async function () {
+        await LoginPage.open();
+    });
+
     it('Successful log in', async function () {
-        await browser.url('/user/login');
-        await expect($('[class*="login-form-button"]'))
+        await expect(LoginPage.buttonSubmit)
             .toBeDisplayed();
-        await $('[qa-id="email"]')
-            .setValue('7182001562alena@gmail.com');
-        await $('[qa-id="password"]')
-            .setValue('Kompot123');
-        await expect($('[class*="login-form-button"]'))
-            .toBeEnabled();
-        await $('[class*="login-form-button"]')
-            .click();
-        await expect($('img[alt="avatarIcon"]'))
+        await LoginPage.login('7182001562alena@gmail.com', 'Kompot123')
+        await expect(ProfilePage.iconUser)
             .toBeDisplayed();
     });
 });
