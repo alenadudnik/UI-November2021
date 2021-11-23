@@ -3,7 +3,6 @@ exports.config = {
         './specs/**/*.spec.js'
     ],
     exclude: [
-        './specs/example.spec.js'
     ],
     maxInstances: 1,
     capabilities: [{
@@ -25,5 +24,13 @@ exports.config = {
     mochaOpts: {
         ui: 'bdd',
         timeout: 60000
+    },
+
+    before: async function (capabilities, specs, browser) {
+        browser.addCommand('smartClear', async function () {
+            const text = await this.getValue();
+            for(let char of text)
+               await this.keys('Backspace');
+        }, true)
     },
 }
